@@ -128,7 +128,7 @@ class _BalloonShape extends ShapeBorder {
   );
 
   @override
-  EdgeInsetsGeometry get dimensions => new EdgeInsets.all(10.0);
+  EdgeInsetsGeometry get dimensions => new EdgeInsets.all(0.0);
 
   @override
   Path getInnerPath(Rect rect, {TextDirection textDirection}) {

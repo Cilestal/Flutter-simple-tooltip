@@ -96,6 +96,11 @@ class SimpleTooltip extends StatefulWidget {
   final bool hideOnTooltipTap;
 
   ///
+  /// If you want to automatically resize the tooltip, set this flag to [true]
+  /// defaults to [false]
+  final bool resizeTooltip;
+
+  ///
   /// Pass a `RouteObserver` so that the widget will listen for route transition and will hide tooltip when
   /// the widget's route is not active
   final RouteObserver<PageRoute> routeObserver;
@@ -127,6 +132,7 @@ class SimpleTooltip extends StatefulWidget {
     ],
     this.tooltipTap,
     this.hideOnTooltipTap = false,
+    this.resizeTooltip = false,
     this.routeObserver,
   })  : assert(show != null),
         super(key: key);
@@ -318,7 +324,7 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
                 }
               },
               onSizeChange: (ballonSize) {
-                if (!mounted) return;
+                if (!mounted || !widget.resizeTooltip) return;
                 _ballonSize = ballonSize;
                 doCheckForObfuscation();
                 doShowOrHide();

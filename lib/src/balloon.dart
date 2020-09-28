@@ -16,6 +16,7 @@ class _Ballon extends StatefulWidget {
   final Widget content;
   final EdgeInsets ballonPadding;
   final Color backgroundColor;
+  final Gradient gradient;
   final List<BoxShadow> shadows;
   final Function onTap;
   final Function(_BallonSize) onSizeChange;
@@ -36,6 +37,7 @@ class _Ballon extends StatefulWidget {
     @required this.content,
     @required this.ballonPadding,
     @required this.backgroundColor,
+    this.gradient,
     @required this.shadows,
     this.onTap,
     @required this.onSizeChange,
@@ -75,7 +77,8 @@ class __BallonState extends State<_Ballon> {
         key: _containerKey,
         decoration: ShapeDecoration(
           shadows: widget.shadows,
-          color: widget.backgroundColor,
+          color: widget.gradient == null ? widget.backgroundColor : null,
+          gradient: widget.gradient,
           shape: _BalloonShape(
             widget.tooltipDirection,
             Offset.zero,

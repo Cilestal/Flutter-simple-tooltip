@@ -77,6 +77,10 @@ class SimpleTooltip extends StatefulWidget {
   final Color backgroundColor;
 
   ///
+  /// A gradient to use when filling the shape
+  final Gradient gradient;
+
+  ///
   /// Set a custom list of [BoxShadow]
   /// defaults to `const BoxShadow(color: const Color(0x45222222), blurRadius: 8, spreadRadius: 2),`
   final List<BoxShadow> customShadows;
@@ -117,6 +121,7 @@ class SimpleTooltip extends StatefulWidget {
     this.borderColor = const Color(0xFF50FFFF),
     this.animationDuration = const Duration(milliseconds: 460),
     this.backgroundColor = const Color(0xFFFFFFFF),
+    this.gradient,
     this.customShadows = const [
       const BoxShadow(color: const Color(0x45222222), blurRadius: 8, spreadRadius: 2),
     ],
@@ -301,6 +306,7 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
               borderWidth: widget.borderWidth,
               tooltipDirection: widget.tooltipDirection,
               backgroundColor: widget.backgroundColor,
+              gradient: widget.gradient,
               shadows: widget.customShadows,
               onTap: () {
                 if (widget.hideOnTooltipTap) {

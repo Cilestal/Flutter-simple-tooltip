@@ -49,6 +49,10 @@ class SimpleTooltip extends StatefulWidget {
   final double arrowTipDistance;
 
   ///
+  /// The radius of the tip of the arrow
+  final double arrowTipRadius;
+
+  ///
   /// The length of the Arrow
   final double arrowLength;
 
@@ -118,6 +122,7 @@ class SimpleTooltip extends StatefulWidget {
     this.maxHeight,
     this.minHeight,
     this.arrowTipDistance = 6,
+    this.arrowTipRadius = 0.0,
     this.arrowLength = 20,
     this.minimumOutSidePadding = 20.0,
     this.arrowBaseWidth = 20.0,
@@ -307,6 +312,7 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
               arrowBaseWidth: widget.arrowBaseWidth,
               arrowLength: widget.arrowLength,
               arrowTipDistance: widget.arrowTipDistance,
+              arrowTipRadius: widget.arrowTipRadius,
               ballonPadding: widget.ballonPadding,
               borderColor: widget.borderColor,
               borderWidth: widget.borderWidth,

@@ -1,4 +1,4 @@
-# simple_tooltip
+# Flutter Simple Tooltip
 
 A plugin for creating tooltips with shape of a balloon
 
@@ -9,7 +9,9 @@ In the `dependencies:` section of your `pubspec.yaml`, add the following line:
 
 ```yaml
 dependencies:
-  simple_tooltip: <latest version>
+    simple_tooltip:
+    git:
+      url: git://github.com/Cilestal/simple_tooltp
 ```
 
 # Usage

@@ -27,7 +27,8 @@ class SimpleTooltip extends StatefulWidget {
   /// If true, it will display the tool , if false it will hide it
   final bool show;
 
-  final Function onClose;
+  // TODO: Implement on close callback
+  // final Function onClose;
 
   /// Sets the content padding
   /// defautls to: `const EdgeInsets.symmetric(horizontal: 20, vertical: 16),`
@@ -115,7 +116,7 @@ class SimpleTooltip extends StatefulWidget {
     this.tooltipDirection = TooltipDirection.up,
     @required this.content,
     @required this.show,
-    this.onClose,
+    // this.onClose,
     this.ballonPadding = const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
     this.maxWidth,
     this.minWidth,
@@ -286,12 +287,37 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
   OverlayEntry _buildOverlay({
     bool buildHidding = false,
   }) {
+    var direction = widget.tooltipDirection;
+
+    if (direction == TooltipDirection.horizontal ||
+        direction == TooltipDirection.vertical) {
+      // compute real direction based on target position
+      final targetRenderBox = context.findRenderObject() as RenderBox;
+      final overlayRenderBox = Overlay.of(context, rootOverlay: false)
+          .context
+          .findRenderObject() as RenderBox;
+
+      final targetGlobalCenter = targetRenderBox.localToGlobal(
+          targetRenderBox.size.center(Offset.zero),
+          ancestor: overlayRenderBox);
+
+      direction = (direction == TooltipDirection.vertical)
+          ? (targetGlobalCenter.dy <
+                  overlayRenderBox.size.center(Offset.zero).dy
+              ? TooltipDirection.down
+              : TooltipDirection.up)
+          : (targetGlobalCenter.dx <
+                  overlayRenderBox.size.center(Offset.zero).dx
+              ? TooltipDirection.right
+              : TooltipDirection.left);
+    }
+
     return OverlayEntry(
       builder: (overlayContext) {
         return _BallonPositioner(
           key: _positionerKey,
           link: layerLink,
-          tooltipDirection: widget.tooltipDirection,
+          tooltipDirection: direction,
           maxHeight: widget.maxHeight,
           minHeight: widget.minHeight,
           maxWidth: widget.maxWidth,
@@ -299,7 +325,7 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
           child: _BalloonTransition(
             key: _transitionKey,
             duration: widget.animationDuration,
-            tooltipDirection: widget.tooltipDirection,
+            tooltipDirection: direction,
             hide: buildHidding,
             animationEnd: (status) {
               if (status == AnimationStatus.dismissed) {
@@ -316,7 +342,7 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
               ballonPadding: widget.ballonPadding,
               borderColor: widget.borderColor,
               borderWidth: widget.borderWidth,
-              tooltipDirection: widget.tooltipDirection,
+              tooltipDirection: direction,
               backgroundColor: widget.backgroundColor,
               gradient: widget.gradient,
               shadows: widget.customShadows,

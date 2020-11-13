@@ -20,7 +20,7 @@ dependencies:
 
 You can get started really simple, just add
 
-<img src="https://raw.githubusercontent.com/Cilestal/Flutter-simple-tooltip/master/example/example.png" align = "right" height = "350" alt="Basic">
+<img src="https://raw.githubusercontent.com/Cilestal/Flutter-simple-tooltip/master/example/example.png" align = "right" height = "440" alt="Basic">
 
 
 ```dart

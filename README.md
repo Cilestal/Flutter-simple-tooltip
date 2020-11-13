@@ -29,6 +29,8 @@ SimpleTooltip(
         },
         animationDuration: Duration(seconds: 3),
         show: true,
+        gradient: ...;
+        onClose: () {...},
         tooltipDirection: TooltipDirection.up,
         child: Container(
         width: 200,
@@ -129,6 +131,12 @@ SimpleTooltip(
   /// Pass a `RouteObserver` so that the widget will listen for route transition and will hide tooltip when
   /// the widget's route is not active
   final RouteObserver<PageRoute> routeObserver;
+  
+  ///
+  /// A gradient to use when filling the shape
+  final Gradient gradient;
+  
+  final Function onClose;
 
 ```
 

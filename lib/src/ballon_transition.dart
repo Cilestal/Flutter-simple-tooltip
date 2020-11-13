@@ -127,6 +127,7 @@ class _BallonTransformation {
 
 class _OpacityAnimationWrapper extends StatefulWidget {
   final Duration duration;
+
   const _OpacityAnimationWrapper({
     Key key,
     @required this.child,

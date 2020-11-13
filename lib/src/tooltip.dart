@@ -10,7 +10,9 @@ import 'package:simple_tooltip/simple_tooltip.dart';
 import 'types.dart';
 
 part 'ballon_transition.dart';
+
 part 'balloon.dart';
+
 part 'balloon_positioner.dart';
 
 class SimpleTooltip extends StatefulWidget {
@@ -27,8 +29,7 @@ class SimpleTooltip extends StatefulWidget {
   /// If true, it will display the tool , if false it will hide it
   final bool show;
 
-  // TODO: Implement on close callback
-  // final Function onClose;
+  final Function onClose;
 
   /// Sets the content padding
   /// defautls to: `const EdgeInsets.symmetric(horizontal: 20, vertical: 16),`
@@ -39,7 +40,7 @@ class SimpleTooltip extends StatefulWidget {
   final Duration animationDuration;
 
   /// [top], [right], [bottom], [left] position the Tooltip absolute relative to the whole screen
-  double top, right, bottom, left;
+  //final double top, right, bottom, left;
 
   /// [minWidth], [minHeight], [maxWidth], [maxHeight] optional size constraints.
   /// If a constraint is not set the size will ajust to the content
@@ -116,8 +117,9 @@ class SimpleTooltip extends StatefulWidget {
     this.tooltipDirection = TooltipDirection.up,
     @required this.content,
     @required this.show,
-    // this.onClose,
-    this.ballonPadding = const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+    this.onClose,
+    this.ballonPadding =
+        const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
     this.maxWidth,
     this.minWidth,
     this.maxHeight,
@@ -134,7 +136,8 @@ class SimpleTooltip extends StatefulWidget {
     this.backgroundColor = const Color(0xFFFFFFFF),
     this.gradient,
     this.customShadows = const [
-      const BoxShadow(color: const Color(0x45222222), blurRadius: 8, spreadRadius: 2),
+      const BoxShadow(
+          color: const Color(0x45222222), blurRadius: 8, spreadRadius: 2),
     ],
     this.tooltipTap,
     this.hideOnTooltipTap = false,
@@ -152,7 +155,8 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
 
   final LayerLink layerLink = LayerLink();
 
-  bool get shouldShowTooltip => widget.show && !_isBeingObfuscated && _routeIsShowing;
+  bool get shouldShowTooltip =>
+      widget.show && !_isBeingObfuscated && _routeIsShowing;
 
   // To avoid rebuild state of widget for each rebuild
   GlobalKey _transitionKey = GlobalKey();
@@ -214,7 +218,8 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
       widget.routeObserver?.subscribe(this, ModalRoute.of(context));
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (oldWidget.tooltipDirection != widget.tooltipDirection || (oldWidget.show != widget.show && widget.show)) {
+      if (oldWidget.tooltipDirection != widget.tooltipDirection ||
+          (oldWidget.show != widget.show && widget.show)) {
         _transitionKey = GlobalKey();
       }
       if (!_routeIsShowing || _isBeingObfuscated) {
@@ -249,6 +254,9 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
   void _removeTooltip() {
     if (!_displaying) {
       return;
+    }
+    if (widget.onClose != null) {
+      widget.onClose();
     }
     this._overlayEntry.remove();
     _displaying = false;

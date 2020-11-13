@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
 import 'package:simple_tooltip/simple_tooltip.dart';
 
 class ObfuscateTooltipItem extends StatefulWidget {
@@ -22,7 +21,8 @@ class ObfuscateTooltipItem extends StatefulWidget {
   ObfuscateTooltipItemState createState() => ObfuscateTooltipItemState();
 }
 
-class ObfuscateTooltipItemState extends State<ObfuscateTooltipItem> with WidgetsBindingObserver {
+class ObfuscateTooltipItemState extends State<ObfuscateTooltipItem>
+    with WidgetsBindingObserver {
   // LayerLink _layerLink = LayerLink();
   GlobalKey _key = GlobalKey();
 
@@ -33,7 +33,8 @@ class ObfuscateTooltipItemState extends State<ObfuscateTooltipItem> with Widgets
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _intervalSubscription = Stream.periodic(Duration(seconds: 1)).listen((event) {
+    _intervalSubscription =
+        Stream.periodic(Duration(seconds: 1)).listen((event) {
       final currentPositionSize = getPositionAndSize();
       if (_lastPositionSize != currentPositionSize) {
         // print("Notifying change");
@@ -117,6 +118,7 @@ class _PositionAndSize {
   final BuildContext context;
   final Size size;
   final Offset globalPosition;
+
   _PositionAndSize({
     @required this.context,
     @required this.size,
@@ -127,7 +129,9 @@ class _PositionAndSize {
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
 
-    return o is _PositionAndSize && o.size == size && o.globalPosition == globalPosition;
+    return o is _PositionAndSize &&
+        o.size == size &&
+        o.globalPosition == globalPosition;
   }
 
   @override

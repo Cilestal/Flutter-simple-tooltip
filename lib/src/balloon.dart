@@ -2,6 +2,7 @@ part of tooltip;
 
 class _Ballon extends StatefulWidget {
   final TooltipDirection tooltipDirection;
+
   // final Offset targetCenter;
   final double borderRadius;
   final double arrowBaseWidth;
@@ -9,6 +10,7 @@ class _Ballon extends StatefulWidget {
   final double arrowTipRadius;
   final Color borderColor;
   final double borderWidth;
+
   // final double left;
   // final double top;
   // final double right;
@@ -58,13 +60,16 @@ class __BallonState extends State<_Ballon> {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (!mounted) return;
-      final RenderBox renderBox = _containerKey.currentContext.findRenderObject();
+      final RenderBox renderBox =
+          _containerKey.currentContext.findRenderObject();
       final Size size = renderBox.size;
       if (renderBox == null) return null;
       final position = renderBox.localToGlobal(Offset.zero);
       // print("position : ${position.dx},${position.dy}, Size: ${renderBox.size}");
 
-      if (_lastSizeNotified == null || _lastSizeNotified.size != size || _lastSizeNotified.globalPosition != position) {
+      if (_lastSizeNotified == null ||
+          _lastSizeNotified.size != size ||
+          _lastSizeNotified.globalPosition != position) {
         final ballonSize = _BallonSize(
           size: size,
           globalPosition: position,
@@ -116,6 +121,7 @@ class _BalloonShape extends ShapeBorder {
   final double borderWidth;
   final TooltipDirection tooltipDirection;
   final double arrowLength;
+
   // final double left, top, right, bottom;
 
   _BalloonShape(
@@ -153,7 +159,8 @@ class _BalloonShape extends ShapeBorder {
       return new Path()
         ..moveTo(rect.left, rect.bottom - bottomLeftRadius)
         ..lineTo(rect.left, rect.top + topLeftRadius)
-        ..arcToPoint(Offset(rect.left + topLeftRadius, rect.top), radius: new Radius.circular(topLeftRadius))
+        ..arcToPoint(Offset(rect.left + topLeftRadius, rect.top),
+            radius: new Radius.circular(topLeftRadius))
         ..lineTo(rect.right - topRightRadius, rect.top)
         ..arcToPoint(Offset(rect.right, rect.top + topRightRadius),
             radius: new Radius.circular(topRightRadius), clockwise: true);
@@ -348,6 +355,7 @@ class _BallonSize {
   final Size size;
   final Offset globalPosition;
   final BuildContext context;
+
   _BallonSize({
     @required this.size,
     @required this.globalPosition,

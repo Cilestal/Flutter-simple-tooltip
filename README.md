@@ -4,7 +4,7 @@ A plugin for creating tooltips with shape of a balloon
 
 You can customize multiple elements
 
-# 💻 Installation
+# Installation
 In the `dependencies:` section of your `pubspec.yaml`, add the following line:
 
 ```yaml
@@ -20,7 +20,7 @@ dependencies:
 
 You can get started really simple, just add
 
-<img src="https://raw.githubusercontent.com/victorevox/simple_tooltp/master/example/simple.png" align = "right" height = "350" alt="Basic">
+<img src="https://raw.githubusercontent.com/Cilestal/Flutter-simple-tooltip/master/example/example.png" align = "right" height = "350" alt="Basic">
 
 
 ```dart

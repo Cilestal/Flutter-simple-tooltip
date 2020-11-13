@@ -11,7 +11,7 @@ In the `dependencies:` section of your `pubspec.yaml`, add the following line:
 dependencies:
     simple_tooltip:
     git:
-      url: git://github.com/Cilestal/simple_tooltp
+      url: git://github.com/Cilestal/Flutter-simple-tooltip
 ```
 
 # Usage

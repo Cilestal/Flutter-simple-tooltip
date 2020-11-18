@@ -106,9 +106,6 @@ class SimpleTooltip extends StatefulWidget {
   /// defaults to [false]
   final bool resizeTooltip;
 
-  final bool cancelOnTouchOutside;
-  final bool cancelOnDrag;
-
   ///
   /// Pass a `RouteObserver` so that the widget will listen for route transition and will hide tooltip when
   /// the widget's route is not active
@@ -146,8 +143,6 @@ class SimpleTooltip extends StatefulWidget {
     this.hideOnTooltipTap = false,
     this.resizeTooltip = false,
     this.routeObserver,
-    this.cancelOnTouchOutside = false,
-    this.cancelOnDrag = false,
   })  : assert(show != null),
         super(key: key);
 
@@ -327,81 +322,60 @@ class SimpleTooltipState extends State<SimpleTooltip> with RouteAware {
 
     return OverlayEntry(
       builder: (overlayContext) {
-        return GestureDetector(
-          behavior: HitTestBehavior.translucent,
-          onTapDown: (v) {
-            if (widget.cancelOnTouchOutside) {
-              _removeTooltip();
-              _showTooltip(buildHidding: true);
-            }
-          },
-          onVerticalDragStart: (v) {
-            if (widget.cancelOnDrag) {
-              _removeTooltip();
-              _showTooltip(buildHidding: true);
-            }
-          },
-          onTap: () {
-            if (widget.cancelOnTouchOutside) {
-              _removeTooltip();
-              _showTooltip(buildHidding: true);
-            }
-          },
-          child: _BallonPositioner(
-            key: _positionerKey,
-            link: layerLink,
+        return _BallonPositioner(
+          key: _positionerKey,
+          link: layerLink,
+          tooltipDirection: direction,
+          maxHeight: widget.maxHeight,
+          minHeight: widget.minHeight,
+          maxWidth: widget.maxWidth,
+          minWidth: widget.minWidth,
+          child: _BalloonTransition(
+            key: _transitionKey,
+            duration: widget.animationDuration,
             tooltipDirection: direction,
-            maxHeight: widget.maxHeight,
-            minHeight: widget.minHeight,
-            maxWidth: widget.maxWidth,
-            minWidth: widget.minWidth,
-            child: _BalloonTransition(
-              key: _transitionKey,
-              duration: widget.animationDuration,
+            hide: buildHidding,
+            animationEnd: (status) {
+              if (status == AnimationStatus.dismissed) {
+                _removeTooltip();
+              }
+            },
+            child: _Ballon(
+              content: widget.content,
+              borderRadius: widget.borderRadius,
+              arrowBaseWidth: widget.arrowBaseWidth,
+              arrowLength: widget.arrowLength,
+              arrowTipDistance: widget.arrowTipDistance,
+              arrowTipRadius: widget.arrowTipRadius,
+              ballonPadding: widget.ballonPadding,
+              borderColor: widget.borderColor,
+              borderWidth: widget.borderWidth,
               tooltipDirection: direction,
-              hide: buildHidding,
-              animationEnd: (status) {
-                if (status == AnimationStatus.dismissed) {
+              backgroundColor: widget.backgroundColor,
+              gradient: widget.gradient,
+              shadows: widget.customShadows,
+              onTap: () {
+                if (widget.hideOnTooltipTap) {
                   _removeTooltip();
+                  _showTooltip(buildHidding: true);
+                }
+                if (widget.tooltipTap != null) {
+                  widget.tooltipTap();
                 }
               },
-              child: _Ballon(
-                content: widget.content,
-                borderRadius: widget.borderRadius,
-                arrowBaseWidth: widget.arrowBaseWidth,
-                arrowLength: widget.arrowLength,
-                arrowTipDistance: widget.arrowTipDistance,
-                arrowTipRadius: widget.arrowTipRadius,
-                ballonPadding: widget.ballonPadding,
-                borderColor: widget.borderColor,
-                borderWidth: widget.borderWidth,
-                tooltipDirection: direction,
-                backgroundColor: widget.backgroundColor,
-                gradient: widget.gradient,
-                shadows: widget.customShadows,
-                onTap: () {
-                  if (widget.hideOnTooltipTap) {
-                    _removeTooltip();
-                    _showTooltip(buildHidding: true);
-                  }
-                  if (widget.tooltipTap != null) {
-                    widget.tooltipTap();
-                  }
-                },
-                onSizeChange: (ballonSize) {
-                  if (!mounted || !widget.resizeTooltip) return;
-                  _ballonSize = ballonSize;
-                  doCheckForObfuscation();
-                  doShowOrHide();
-                },
-              ),
+              onSizeChange: (ballonSize) {
+                if (!mounted || !widget.resizeTooltip) return;
+                _ballonSize = ballonSize;
+                doCheckForObfuscation();
+                doShowOrHide();
+              },
             ),
-            // arrowBaseWidth: widget.arrowBaseWidth,
-            arrowLength: widget.arrowLength,
-            arrowTipDistance: widget.arrowTipDistance,
-            outsidePadding: widget.minimumOutSidePadding,
-            context: context,
           ),
+          // arrowBaseWidth: widget.arrowBaseWidth,
+          arrowLength: widget.arrowLength,
+          arrowTipDistance: widget.arrowTipDistance,
+          outsidePadding: widget.minimumOutSidePadding,
+          context: context,
         );
       },
     );
